@@ -1,26 +1,53 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 
+import { Layout, Icon } from 'antd';
+import './App.css';
+import Sider from './components/Sider/Sider'
+import {Route,Switch} from 'react-router-dom'
+import home from './pages/home/home'
+import list from './pages/list/list'
+import about from './pages/about/about'
+
+const { Header, Content } = Layout;
 class App extends Component {
+  state = {
+    collapsed: false,
+  };
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  }
+  
   render() {
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
+   
+      <Layout style={{height:'100vh'}}>
+        <Sider collapsed={this.state.collapsed}></Sider>
+        <Layout>
+          <Header style={{ background: '#fff', padding: 0 }}>
+            <Icon
+              className="trigger"
+              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+              onClick={this.toggle}
+            />
+          </Header >
+          <Content 
           >
-            Learn React
-          </a>
-        </header>
-      </div>
+           
+		 <div>
+    
+     <Switch>
+			<Route path="/" exact component={home} />
+			<Route path="/list" component={list} />                                                                                                                                                                                                                                                                                   
+		  <Route path='/about' component={about}></Route>     
+      </Switch>                                                                                                                                                                                                                                                                                                                                                                                                                                
+		</div>
+	
+          </Content>
+        </Layout>
+      </Layout>
     );
   }
 }
