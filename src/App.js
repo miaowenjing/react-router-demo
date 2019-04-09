@@ -1,42 +1,39 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import { Layout, Icon } from 'antd';
 import './App.css';
 import Sider from './components/Sider/Sider'
-import {Route,Switch} from 'react-router-dom'
-import home from './pages/home/home'
-import list from './pages/list/list'
-import about from './pages/about/about'
+// import {Route,Switch} from 'react-router-dom'
+import Content from './components/Content/Content';
 
-const { Header, Content } = Layout;
-class App extends Component {
-  state = {
-    collapsed: false,
-  };
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
+
+const { Header} = Layout;
+function App (){
+ const[collapsed,setCollapsed]=useState(false)
+
+  function toggle (){
+    setCollapsed(!collapsed);
+   
   }
   
-  render() {
+
 
     return (
    
       <Layout style={{height:'100vh'}}>
-        <Sider collapsed={this.state.collapsed}></Sider>
+        <Sider collapsed={collapsed}></Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
             <Icon
               className="trigger"
-              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggle}
+              type={collapsed ? 'menu-unfold' : 'menu-fold'}
+              onClick={toggle}
             />
           </Header >
           <Content 
           >
            
-		 <div>
+		 {/* <div>
     
      <Switch>
 			<Route path="/" exact component={home} />
@@ -44,12 +41,12 @@ class App extends Component {
 		  <Route path='/about' component={about}></Route>     
       </Switch>                                                                                                                                                                                                                                                                                                                                                                                                                                
 		</div>
-	
+	 */}
           </Content>
         </Layout>
       </Layout>
     );
   }
-}
+
 
 export default App;
