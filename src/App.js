@@ -30,8 +30,7 @@ function App (){
               onClick={toggle}
             />
           </Header >
-          <Content 
-          >
+          <Content>
            
 		 {/* <div>
     
