@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Layout, Menu, Icon, Switch } from "antd";
+import { Layout, Menu, Icon} from "antd";
 // import './Sider.js';
 
 export default function Sider({ collapsed }) {
@@ -28,11 +28,11 @@ export default function Sider({ collapsed }) {
             </span>
           }
         >
-          <Menu.Item key="2">
+          <Menu.Item key="21">
             用户信息管理
             <Link to="/user" style={{ color: "#fff" }} />
           </Menu.Item>
-          <Menu.Item key="3">
+          <Menu.Item key="22">
             管理员信息管理
             <Link to="/user" style={{ color: "#fff" }} />
           </Menu.Item>
@@ -48,7 +48,7 @@ export default function Sider({ collapsed }) {
         >
           <Menu.Item key="6">
             <Link to="/produce" style={{ color: "#fff" }}>
-              123
+              商品管理
             </Link>
           </Menu.Item>
           <Menu.Item key="7">
@@ -57,7 +57,25 @@ export default function Sider({ collapsed }) {
               123
             </Link>
           </Menu.Item>
-          <Menu.Item key="8">Option 3</Menu.Item>
+       
+        </Menu.SubMenu>
+        <Menu.SubMenu
+          key="sub1"
+          title={
+            <span>
+              <Icon type="mail" />
+              <span>订单管理</span>
+            </span>
+          }
+        >
+          <Menu.Item key="41">
+            订单列表
+            <Link to="/user" style={{ color: "#fff" }} />
+          </Menu.Item>
+          <Menu.Item key="42">
+            管理员信息管理
+            <Link to="/user" style={{ color: "#fff" }} />
+          </Menu.Item>
         </Menu.SubMenu>
       </Menu>
     </Layout.Sider>

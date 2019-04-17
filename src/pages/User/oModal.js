@@ -1,6 +1,17 @@
-import React from "react";
-// import { Modal } from 'antd';
+import React  from 'react';
+import { Modal  } from 'antd';
+function OModal ({visible ,title ,children,...res }){
 
-export default function oModal() {
-  return <div id="modal">123</div>;
+    return (
+      <Modal
+      title= {title}
+      visible = {visible}
+       {...res}
+    >
+       {children}
+    </Modal>
+    );
+
 }
+
+export default OModal;

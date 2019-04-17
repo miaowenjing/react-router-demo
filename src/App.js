@@ -29,6 +29,8 @@ function App (){
               type={collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={toggle}
             />
+            <span>你好，苗文静</span>
+            <Icon type="close-circle" />
           </Header >
           <Content>
            

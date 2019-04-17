@@ -1,76 +1,64 @@
-import React, { Component } from "react";
+import React  from 'react';
+import {Link} from 'react-router-dom'
+import { Card, Col, Row ,Icon, Avatar,Button} from 'antd';
+ function Product() {
 
-var echarts = require("echarts");
-class Product extends Component {
-  componentDidMount() {
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById("main"));
-    // 绘制图表
-    myChart.setOption({
-      legend: {},
-      tooltip: {
-        trigger: "axis",
-        showContent: false
-      },
-      dataset: {
-        source: [
-          ["product", "2012", "2013", "2014", "2015", "2016", "2017"],
-          ["Matcha Latte", 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
-          ["Milk Tea", 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
-          ["Cheese Cocoa", 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
-          ["Walnut Brownie", 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
-        ]
-      },
-      xAxis: { type: "category" },
-      yAxis: { gridIndex: 0 },
-      grid: { top: "55%" },
-      series: [
-        { type: "line", smooth: true, seriesLayoutBy: "row" },
-        { type: "line", smooth: true, seriesLayoutBy: "row" },
-        { type: "line", smooth: true, seriesLayoutBy: "row" },
-        { type: "line", smooth: true, seriesLayoutBy: "row" },
-        {
-          type: "pie",
-          id: "pie",
-          radius: "30%",
-          center: ["50%", "25%"],
-          label: {
-            formatter: "{b}: {@2012} ({d}%)"
-          },
-          encode: {
-            itemName: "product",
-            value: "2012",
-            tooltip: "2012"
-          }
-        }
-      ]
-    });
-    myChart.on("updateAxisPointer", function(event) {
-      var xAxisInfo = event.axesInfo[0];
-      if (xAxisInfo) {
-        var dimension = xAxisInfo.value + 1;
-        myChart.setOption({
-          series: {
-            id: "pie",
-            label: {
-              formatter: "{b}: {@[" + dimension + "]} ({d}%)"
-            },
-            encode: {
-              value: dimension,
-              tooltip: dimension
-            }
-          }
-        });
-      }
-    });
-  }
-
-  render() {
-    return (
-      <div id="main" style={{ width: "100%", height: "800px" }} />
-      //   <div id="main" />
-    );
-  }
-}
-
-export default Product;
+     return(
+         <div>
+        <div class='AddProduct'>
+         <span>
+         <Icon type="pic-center" />
+         <span>商品列表</span>
+         </span>
+         <Button type="primary">添加</Button>
+        </div>
+        <div style={{ background: '#ECECEC', padding: '30px' }}>
+        <Row gutter={16}>
+          <Col span={8}>
+          <Link to='/produce/skincare'>
+            <Card 
+              cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+              actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}>
+                 <Card.Meta
+                    //  avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                     title="护肤"
+                     description="This is the description"
+                 />
+            </Card>
+            </Link>
+          </Col>
+          <Col span={8}>
+          <Link to='/produce/skincare'>
+          <Card 
+              bordered={false}   
+              cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+              actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}>
+                 <Card.Meta
+                     avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                     title="彩妆"
+                     description="This is the description"
+                 />
+            </Card>
+            </Link>
+          </Col>
+          <Col span={8}>
+          <Link to='/produce/skincare'>
+          <Card 
+              bordered={false}   
+              cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+              actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}>
+                 <Card.Meta
+                     avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                     title="香水"
+                     description="This is the description"
+                 />
+            </Card>
+            </Link>
+          </Col>
+        </Row>
+      </div>
+        {this.props.children}
+      </div>
+     )
+ }
+ export default Product;

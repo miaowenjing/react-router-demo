@@ -6,11 +6,13 @@
     "antd": "^3.15.1",
     "echarts": "^4.2.1",
     "echarts-for-react": "^2.0.15-beta.0",
+    "node-sass": "^4.11.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "sass-loader": "^7.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
