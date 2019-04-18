@@ -1,8 +1,22 @@
-import React, { useState } from "react";
-import { Table, Divider, Button ,Input} from "antd";
+import React, { useState ,useEffect} from "react";
+import { Table, Divider, Button ,Input ,Modal,Radio} from "antd";
+import api from '../../api/index'
 import OMobal from "./oModal.js";
+import './User.scss'
+// const confirm = Modal.confirm;
+// const { Option } = Select;
+
 function User() {
   const [Addvisible, setVisible] = useState(false);
+  // useEffect(() =>{
+  //    var res= getData()
+  //   console.log(res.data)
+    
+
+  // })
+  // async function getData (){
+  //   api.getList()
+  // }
   const dataSource = [
     {
       key: "1",
@@ -70,36 +84,51 @@ function User() {
       key: "password"
     },
     {
-      title: "收货地址",
+      title: "性别",
       dataIndex: "address",
       key: "address",
-      // render: tags => (
-      //   <span>
-      //     {tags.map(tag => {
-      //     console.log(tag)
-            
-      //       return <span>123</span>;
-      //     })}
-      //   </span>
-      // ),
+    },
+    {
+      title: "更多",
+      dataIndex: "address",
+      key: "address",
+      render:()=>(<a>查看更多信息</a>)
     },
     {
       title: "操作",
       dataIndex: "action",
       render: () => (
         <span>
-          <a href="javascript:;">修改密码 </a>
+          <Button onClick={showDeleteConfirm} type="dashed">修改用户信息</Button>
           <Divider type="vertical" />
-          <a href="javascript:;">删除</a>
+          <Button onClick={showDeleteConfirm} type="danger">删除 </Button>
         </span>
       )
     }
   ];
+
+  function showDeleteConfirm() {
+    Modal.confirm({
+      title: '确定删除此用户?',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        console.log('OK');
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
+
+
   return (
     <div id="user">
       <div className="information">
         <span>共20条数据</span>
-        <Button 
+        <Button  
+         className='addButton'
          type="primary" 
          onClick ={() =>{
            setVisible(true)
@@ -109,14 +138,30 @@ function User() {
           title='新增'
           onOk={()=>{setVisible(true)}}
           onCancel={()=>{setVisible(false)}} 
+          okText='添加'
+          cancelText= '取消'
           >
-          123</OMobal>
+          <div className='item'>
+           <span>用户姓名</span>
+           <Input placeholder="Basic usage" />
+          </div>
+          <div className='item'>
+           <span>用户帐号</span>
+           <Input placeholder="Basic usage" />
+          </div>
+          <div className='item'>
+           <span>用户密码</span>
+           <Input placeholder="Basic usage" />
+          </div>
+         
+     
+          </OMobal>
           <span class='search'>
           <Input.Search
-      placeholder="input search text"
-      onSearch={value => console.log(value)}
-      style={{ width: 500 }}
-    />
+            placeholder="请输入用户帐号"
+            onSearch={value => console.log(value)}
+            style={{ width: 500 }}
+           />
           </span>
       </div>
       

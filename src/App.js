@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Layout, Icon } from 'antd';
-import './App.css';
+import './App.scss';
 import Sider from './components/Sider/Sider'
 // import {Route,Switch} from 'react-router-dom'
 import Content from './components/Content/Content';
@@ -20,30 +20,23 @@ function App (){
 
     return (
    
-      <Layout style={{height:'100vh'}}>
+      <Layout style={{height:'100vh'}} id='app'>
         <Sider collapsed={collapsed}></Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
+          <Header className='v-header' >
             <Icon
               className="trigger"
               type={collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={toggle}
+              style={ {'margin-left':'20px'}}
             />
-            <span>你好，苗文静</span>
-            <Icon type="close-circle" />
+            <div class='header-right'>
+             <span>你好，苗文静</span>
+             <Icon type="close-circle" className='exit'/>
+            </div> 
+            
           </Header >
-          <Content>
-           
-		 {/* <div>
-    
-     <Switch>
-			<Route path="/" exact component={home} />
-			<Route path="/list" component={list} />                                                                                                                                                                                                                                                                                   
-		  <Route path='/about' component={about}></Route>     
-      </Switch>                                                                                                                                                                                                                                                                                                                                                                                                                                
-		</div>
-	 */}
-          </Content>
+          <Content></Content>
         </Layout>
       </Layout>
     );

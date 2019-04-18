@@ -57,7 +57,7 @@ import { Card, Col, Row ,Icon, Avatar,Button} from 'antd';
           </Col>
         </Row>
       </div>
-        {this.props.children}
+        {/* {this.props.children} */}
       </div>
      )
  }

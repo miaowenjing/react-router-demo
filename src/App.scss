@@ -1,0 +1,28 @@
+@import '~antd/dist/antd.css';
+
+#app{
+    .v-header{
+       background: #fff;
+       padding: 0 ;
+       .trigger{
+           font-size: 18px;
+       }
+       .header-right{
+           float: right;
+           span{
+            display: inline-block;
+            margin:0 20px;
+             }
+           .exit{
+               margin-right: 20px;
+               font-size:18px;
+               &:hover{
+                   color:#e39458
+               }
+             }
+       }
+    // 
+    //  
+    }
+}
+

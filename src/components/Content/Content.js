@@ -7,7 +7,8 @@ import {Route,Switch,Link} from 'react-router-dom'
 import home from '../../pages/home/home'
 import User from '../../pages/User/User'
 import Product from '../../pages/Product/Product'
-import ProDetail from '../../pages/Product/ProDetail'
+import Order from '../../pages/order/order'
+// import ProDetail from '../../pages/Product/ProDetail'
 
 const contentStyle = {
   borderTop: '1px solid #F0F2F5',
@@ -53,10 +54,12 @@ export default function Content() {
       <Switch>
      
 			<Route path="/" exact component={home} />
-			<Route path="/user" component={User} />                                                                                                                                                                                                                                                                                   
-		  <Route path='/produce' component={Product}>
-           <Route path=':id' component={ProDetail}></Route>
-      </Route>
+			<Route path="/user" component={User} />  
+      <Route path='/manger' component={User}></Route>                                                                                                                                                                                                                                                                                 
+		  <Route path='/produce' component={Product}/>
+      <Route path='/order' component={Order}/>
+        
+     
   
       </Switch> 
 
