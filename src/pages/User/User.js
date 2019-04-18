@@ -8,15 +8,15 @@ import './User.scss'
 
 function User() {
   const [Addvisible, setVisible] = useState(false);
-  // useEffect(() =>{
-  //    var res= getData()
-  //   console.log(res.data)
+  useEffect(() =>{
+     var res= getData()
+    console.log(res.data)
     
 
-  // })
-  // async function getData (){
-  //   api.getList()
-  // }
+  })
+  async function getData (){
+    api.getList()
+  }
   const dataSource = [
     {
       key: "1",
