@@ -21,7 +21,7 @@ import { Card, Col, Row ,Icon, Avatar,Button} from 'antd';
               actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}>
                  <Card.Meta
                     //  avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                     title="护肤"
+                     title="古装"
                      description="This is the description"
                  />
             </Card>

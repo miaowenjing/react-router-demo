@@ -1,21 +1,22 @@
-import React, { useState ,useEffect} from "react";
-import { Table, Divider, Button ,Input ,Modal,Radio} from "antd";
-import api from '../../api/index'
+import React, { useState, useEffect } from "react";
+import { Table, Divider, Button, Input, Modal, Radio } from "antd";
+import api from "../../api/index";
 import OMobal from "./oModal.js";
-import './User.scss'
+import "./User.scss";
 // const confirm = Modal.confirm;
 // const { Option } = Select;
-
+const RadioGroup = Radio.Group;
 function User() {
+  const [count, setCount] = useState(0);
   const [Addvisible, setVisible] = useState(false);
-  useEffect(() =>{
-     var res= getData()
-    console.log(res.data)
-    
-
-  })
-  async function getData (){
-    api.getList()
+  useEffect(() => {
+    getData().then(res => {
+      setCount(res);
+      console.log(res);
+    });
+  });
+  async function getData() {
+    api.getList();
   }
   const dataSource = [
     {
@@ -30,35 +31,35 @@ function User() {
       name: "lalala",
       index: "胡彦祖",
       password: 42,
-      address: ["西湖区湖底公园1号",123,123]
+      address: ["西湖区湖底公园1号", 123, 123]
     },
     {
       key: "1",
       name: "lalala",
       index: "胡彦斌",
       password: 32,
-      address: ["西湖区湖底公园1号",123,123]
+      address: ["西湖区湖底公园1号", 123, 123]
     },
     {
       key: "2",
       name: "lalala",
       index: "胡彦祖",
       password: 42,
-      address: ["西湖区湖底公园1号",123,123]
+      address: ["西湖区湖底公园1号", 123, 123]
     },
     {
       key: "1",
       name: "lalala",
       index: "胡彦斌",
       password: 32,
-      address: ["西湖区湖底公园1号",123,123]
+      address: ["西湖区湖底公园1号", 123, 123]
     },
     {
       key: "2",
       name: "lalala",
       index: "胡彦祖",
       password: 42,
-      address: ["西湖区湖底公园1号",123,123]
+      address: ["西湖区湖底公园1号", 123, 123]
     }
   ];
 
@@ -86,22 +87,26 @@ function User() {
     {
       title: "性别",
       dataIndex: "address",
-      key: "address",
+      key: "address"
     },
     {
       title: "更多",
       dataIndex: "address",
       key: "address",
-      render:()=>(<a>查看更多信息</a>)
+      render: () => <a>查看更多信息</a>
     },
     {
       title: "操作",
       dataIndex: "action",
       render: () => (
         <span>
-          <Button onClick={showDeleteConfirm} type="dashed">修改用户信息</Button>
+          <Button onClick={showDeleteConfirm} type="dashed">
+            修改用户信息
+          </Button>
           <Divider type="vertical" />
-          <Button onClick={showDeleteConfirm} type="danger">删除 </Button>
+          <Button onClick={showDeleteConfirm} type="danger">
+            删除{" "}
+          </Button>
         </span>
       )
     }
@@ -109,63 +114,74 @@ function User() {
 
   function showDeleteConfirm() {
     Modal.confirm({
-      title: '确定删除此用户?',
-      okText: 'Yes',
-      okType: 'danger',
-      cancelText: 'No',
+      title: "确定删除此用户?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
       onOk() {
-        console.log('OK');
+        console.log("OK");
       },
       onCancel() {
-        console.log('Cancel');
-      },
+        console.log("Cancel");
+      }
     });
   }
-
 
   return (
     <div id="user">
       <div className="information">
-        <span>共20条数据</span>
-        <Button  
-         className='addButton'
-         type="primary" 
-         onClick ={() =>{
-           setVisible(true)
-         }}>新增</Button>
-        <OMobal 
-          visible={Addvisible} 
-          title='新增'
-          onOk={()=>{setVisible(true)}}
-          onCancel={()=>{setVisible(false)}} 
-          okText='添加'
-          cancelText= '取消'
-          >
-          <div className='item'>
-           <span>用户姓名</span>
-           <Input placeholder="Basic usage" />
+        <span>共{count}条数据</span>
+        <Button
+          className="addButton"
+          type="primary"
+          onClick={() => {
+            // setVisible(true);
+            getData();
+          }}
+        >
+          新增
+        </Button>
+        <OMobal
+          visible={Addvisible}
+          title="新增"
+          onOk={() => {
+            setVisible(true);
+          }}
+          onCancel={() => {
+            setVisible(false);
+          }}
+          okText="添加"
+          cancelText="取消"
+        >
+          <div className="item">
+            <span>用户姓名</span>
+            <Input placeholder="Basic usage" />
           </div>
-          <div className='item'>
-           <span>用户帐号</span>
-           <Input placeholder="Basic usage" />
+          <div className="item">
+            <span>用户帐号</span>
+            <Input placeholder="Basic usage" />
           </div>
-          <div className='item'>
-           <span>用户密码</span>
-           <Input placeholder="Basic usage" />
+          <div className="item">
+            <span>用户密码</span>
+            <Input placeholder="Basic usage" />
           </div>
-         
-     
-          </OMobal>
-          <span class='search'>
+          <div className="item">
+            <RadioGroup>
+              <span>性别</span>
+              <Radio value={1}>男</Radio>
+              <Radio value={2}>女</Radio>
+            </RadioGroup>
+          </div>
+        </OMobal>
+        <span class="search">
           <Input.Search
             placeholder="请输入用户帐号"
             onSearch={value => console.log(value)}
             style={{ width: 500 }}
-           />
-          </span>
+          />
+        </span>
       </div>
-      
-      
+
       <Table dataSource={dataSource} columns={columns} />
     </div>
   );
