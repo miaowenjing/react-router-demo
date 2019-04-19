@@ -15,7 +15,7 @@ const ax = axios.create({
   });
 
 export function get(url,param) {
-    return ax.get(url,{params:{param}}).then((data)=>{ return data.data})
+    return ax.get(url,{params:param})
 }
 export function post(url,param) {
     return ax.post(url,{params:{param}}).then((data)=>data.data)

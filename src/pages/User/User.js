@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Divider, Button, Input, Modal, Radio } from "antd";
+import { Table, Divider, Button, Input, Modal, Radio ,Pagination} from "antd";
 import api from "../../api/index";
 import OMobal from "./oModal.js";
 import "./User.scss";
@@ -7,61 +7,29 @@ import "./User.scss";
 // const { Option } = Select;
 const RadioGroup = Radio.Group;
 function User() {
+  const [addName, setAddName] = useState('')
+  const [addIndex, setaddIndex] = useState('')
+  const [addPassword, setaddPassword] = useState("")
+  const [addSex, setaddSex] = useState(1)
   const [count, setCount] = useState(0);
+  const [searchData,setSearchData] = useState('')
+  const [current, setCurrent] = useState(1)
+  const [TableData,setTableData] =  useState(null)
+  // const [page,setPage]=useState(1)
   const [Addvisible, setVisible] = useState(false);
+
   useEffect(() => {
-    getData().then(res => {
-      setCount(res);
-      console.log(res);
+    api.getList({
+      page:current,
+      pageSize:10
+    }).then(res => {
+      setCount(res.data.count);
+      setTableData(res.data.data);
+      console.log(res.data);
     });
-  });
-  async function getData() {
-    api.getList();
-  }
-  const dataSource = [
-    {
-      key: "1",
-      name: "lalala",
-      index: "胡彦斌",
-      password: 32,
-      address: "西湖区湖底公园1号"
-    },
-    {
-      key: "2",
-      name: "lalala",
-      index: "胡彦祖",
-      password: 42,
-      address: ["西湖区湖底公园1号", 123, 123]
-    },
-    {
-      key: "1",
-      name: "lalala",
-      index: "胡彦斌",
-      password: 32,
-      address: ["西湖区湖底公园1号", 123, 123]
-    },
-    {
-      key: "2",
-      name: "lalala",
-      index: "胡彦祖",
-      password: 42,
-      address: ["西湖区湖底公园1号", 123, 123]
-    },
-    {
-      key: "1",
-      name: "lalala",
-      index: "胡彦斌",
-      password: 32,
-      address: ["西湖区湖底公园1号", 123, 123]
-    },
-    {
-      key: "2",
-      name: "lalala",
-      index: "胡彦祖",
-      password: 42,
-      address: ["西湖区湖底公园1号", 123, 123]
-    }
-  ];
+  },[current]);
+
+
 
   const columns = [
     {
@@ -98,35 +66,49 @@ function User() {
     {
       title: "操作",
       dataIndex: "action",
-      render: () => (
+      render: (text,record) => (
         <span>
-          <Button onClick={showDeleteConfirm} type="dashed">
-            修改用户信息
+          <Button type="dashed">
+            修改{record.name}信息
           </Button>
           <Divider type="vertical" />
-          <Button onClick={showDeleteConfirm} type="danger">
-            删除{" "}
+        
+          <Button onClick={()=>{showDeleteConfirm(record.key)}} type="danger">
+            删除
           </Button>
         </span>
       )
     }
   ];
 
-  function showDeleteConfirm() {
+ 
+  function showDeleteConfirm(id) {
     Modal.confirm({
       title: "确定删除此用户?",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
       onOk() {
-        console.log("OK");
+        api.getList({
+          id:id
+        })
       },
-      onCancel() {
-        console.log("Cancel");
-      }
     });
   }
+  function pageChange (page){
+    setCurrent(page)
+  }
+  function addSubmit(){
+   api.getList({
+    addName,addIndex,addPassword,addSex
+   })
+  }
+function handleSearch(e){
+ api.getList({
+    id:e
+ })
 
+}
   return (
     <div id="user">
       <div className="information">
@@ -135,8 +117,7 @@ function User() {
           className="addButton"
           type="primary"
           onClick={() => {
-            // setVisible(true);
-            getData();
+            setVisible(true);
           }}
         >
           新增
@@ -144,9 +125,7 @@ function User() {
         <OMobal
           visible={Addvisible}
           title="新增"
-          onOk={() => {
-            setVisible(true);
-          }}
+          onOk={addSubmit}
           onCancel={() => {
             setVisible(false);
           }}
@@ -155,18 +134,18 @@ function User() {
         >
           <div className="item">
             <span>用户姓名</span>
-            <Input placeholder="Basic usage" />
+            <Input placeholder="请输入用户姓名" value={addName} onChange={val =>{setAddName(val.target.value)}}/>
           </div>
           <div className="item">
             <span>用户帐号</span>
-            <Input placeholder="Basic usage" />
+            <Input placeholder="请输入用户帐号" value={addIndex} onChange={val =>{setaddIndex(val.target.value)}}/>
           </div>
           <div className="item">
             <span>用户密码</span>
-            <Input placeholder="Basic usage" />
+            <Input placeholder="请输入用户密码" value={addPassword} onChange={val =>{setaddPassword(val.target.value)}}/>
           </div>
           <div className="item">
-            <RadioGroup>
+            <RadioGroup  onChange={val => {setaddSex(val.target.value)}} value={addSex}>
               <span>性别</span>
               <Radio value={1}>男</Radio>
               <Radio value={2}>女</Radio>
@@ -176,13 +155,20 @@ function User() {
         <span class="search">
           <Input.Search
             placeholder="请输入用户帐号"
-            onSearch={value => console.log(value)}
+            // value={searchData}
+            onSearch={handleSearch}
             style={{ width: 500 }}
           />
         </span>
       </div>
 
-      <Table dataSource={dataSource} columns={columns} />
+      <Table 
+      dataSource={TableData} 
+      columns={columns}
+      pagination={false} />
+    
+      <Pagination showQuickJumper defaultCurrent={2} total={500}  onChange={pageChange}/>,
+    
     </div>
   );
 }

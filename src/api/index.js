@@ -1,5 +1,5 @@
-import {get } from './utile'
+import {get ,post} from './utile'
 export default {
-  getList: () => get("/selfProgram"),
-    // chgStat: (param = {}) => post("/desktopCtrl/chgStat", param)
+  getList: (param = {}) => get("/mocktable",param),
+  postTable: (param = {}) => post("/desktopCtrl/chgStat", param)
   };

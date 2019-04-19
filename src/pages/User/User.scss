@@ -1,12 +1,23 @@
 #user{
  .information{
+    //  border:1px solid red;
      padding:10px;
      .addButton{
         margin-left: 10px;
      }
+   
     .search{
         float: right;
     }
  }
     
 }
+.item{
+    padding:10px 0;
+   input{  
+    width:80%;
+   }
+   span{
+         margin:0 10px; 
+   }
+ }

@@ -8,7 +8,7 @@ import home from '../../pages/home/home'
 import User from '../../pages/User/User'
 import Product from '../../pages/Product/Product'
 import Order from '../../pages/order/order'
-// import ProDetail from '../../pages/Product/ProDetail'
+import ProDetail from '../../pages/Product/ProDetail'
 
 const contentStyle = {
   borderTop: '1px solid #F0F2F5',
@@ -58,6 +58,7 @@ export default function Content() {
       <Route path='/manger' component={User}></Route>                                                                                                                                                                                                                                                                                 
 		  <Route path='/produce' component={Product}/>
       <Route path='/order' component={Order}/>
+      <Route path='/produce/1' component={ProDetail}/>
         
      
   
