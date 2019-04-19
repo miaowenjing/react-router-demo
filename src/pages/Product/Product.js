@@ -5,7 +5,7 @@ import { Card, Col, Row ,Icon, Avatar,Button} from 'antd';
 
      return(
          <div>
-        <div class='AddProduct'>
+        <div className='AddProduct'>
          <span>
          <Icon type="pic-center" />
          <span>商品列表</span>
@@ -15,7 +15,7 @@ import { Card, Col, Row ,Icon, Avatar,Button} from 'antd';
         <div style={{ background: '#ECECEC', padding: '30px' }}>
         <Row gutter={16}>
           <Col span={8}>
-          <Link to='/produce/skincare'>
+          <Link to='/produce/a'>
             <Card 
               cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
               actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}>

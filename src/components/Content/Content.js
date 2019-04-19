@@ -53,13 +53,14 @@ export default function Content() {
       </div>
       <Switch>
      
-			<Route path="/" exact component={home} />
-			<Route path="/user" component={User} />  
+      <Route path="/" exact component={home} />
+      <Route path="/user" exact component={User} />  
       <Route path='/manger' component={User}></Route>                                                                                                                                                                                                                                                                                 
-		  <Route path='/produce' component={Product}/>
+		  <Route path='/produce'  exact component={Product}/>
+      <Route path='/produce/a'  component={ProDetail}/>
       <Route path='/order' component={Order}/>
-      <Route path='/produce/1' component={ProDetail}/>
-        
+     
+      
      
   
       </Switch> 

@@ -28,9 +28,9 @@ function App (){
               className="trigger"
               type={collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={toggle}
-              style={ {'margin-left':'20px'}}
+              style={ {'marginLeft':'20px'}}
             />
-            <div class='header-right'>
+            <div className='header-right'>
              <span>你好，苗文静</span>
              <Icon type="close-circle" className='exit'/>
             </div> 

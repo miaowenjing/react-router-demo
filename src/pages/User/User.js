@@ -16,7 +16,8 @@ function User() {
   const [current, setCurrent] = useState(1)
   const [TableData,setTableData] =  useState(null)
   // const [page,setPage]=useState(1)
-  const [Addvisible, setVisible] = useState(false);
+  const [Addvisible, setAddVisible] = useState(false);
+  const [chgvisible, setChgVisible] = useState(true);
 
   useEffect(() => {
     api.getList({
@@ -68,7 +69,7 @@ function User() {
       dataIndex: "action",
       render: (text,record) => (
         <span>
-          <Button type="dashed">
+          <Button type="dashed" onClick={()=>{setChgVisible(true)}}>
             修改{record.name}信息
           </Button>
           <Divider type="vertical" />
@@ -107,7 +108,11 @@ function handleSearch(e){
  api.getList({
     id:e
  })
-
+}
+function chgSubmit(){
+  api.getList({
+    
+   })
 }
   return (
     <div id="user">
@@ -117,7 +122,7 @@ function handleSearch(e){
           className="addButton"
           type="primary"
           onClick={() => {
-            setVisible(true);
+            setAddVisible(true);
           }}
         >
           新增
@@ -127,7 +132,7 @@ function handleSearch(e){
           title="新增"
           onOk={addSubmit}
           onCancel={() => {
-            setVisible(false);
+            setAddVisible(false);
           }}
           okText="添加"
           cancelText="取消"
@@ -168,7 +173,21 @@ function handleSearch(e){
       pagination={false} />
     
       <Pagination showQuickJumper defaultCurrent={2} total={500}  onChange={pageChange}/>,
-    
+      <OMobal
+          visible={chgvisible}
+          title="修改"
+          onOk={chgSubmit}
+          onCancel={() => {
+            setChgVisible(false);
+          }}
+          okText="修改"
+          cancelText="取消"
+        >
+          <div className="item">
+            <span>用户密码</span>
+            <Input placeholder="请输入用户密码" value={addPassword} onChange={val =>{setaddPassword(val.target.value)}}/>
+          </div>
+        </OMobal>
     </div>
   );
 }
