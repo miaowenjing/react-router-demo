@@ -15,12 +15,6 @@ export default function Sider({ collapsed }) {
       <div className="logo" />
       <h2>xx管理系统</h2>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-       
-        <Menu.Item key="1">
-          <Icon type="user" />
-          <span>首页</span>
-          <Link to="/" className="link" />
-        </Menu.Item>
         <Menu.SubMenu
           key="sub1"
           title={
@@ -52,7 +46,27 @@ export default function Sider({ collapsed }) {
           <span>订单管理</span>
             <Link to="/order" style={{ color: "#fff" }} />
           </Menu.Item>
-       
+
+          <Menu.SubMenu
+          key="5"
+          title={
+            <span>
+              <Icon type="mail" />
+              <span>数据分析</span>
+            </span>
+          }
+        >
+          <Menu.Item key="1">
+          用户分析
+          <Link to="/echart/a" className="link" />
+        </Menu.Item>
+          <Menu.Item key="42">
+            订单分析
+            <Link to="/echart/b" style={{ color: "#fff" }} />
+          </Menu.Item>
+        </Menu.SubMenu>
+
+         
       </Menu>
     </Layout.Sider>
   );

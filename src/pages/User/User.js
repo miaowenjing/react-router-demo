@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Table, Divider, Button, Input, Modal, Radio ,Pagination} from "antd";
 import api from "../../api/index";
-import OMobal from "./oModal.js";
+import OMobal from "../../components/oModal/oModal.js";
 import "./User.scss";
-// const confirm = Modal.confirm;
-// const { Option } = Select;
+import UserTable from '../../components/oTable/oTable'
 const RadioGroup = Radio.Group;
 function User() {
   const [addName, setAddName] = useState('')
@@ -17,7 +16,7 @@ function User() {
   const [TableData,setTableData] =  useState(null)
   // const [page,setPage]=useState(1)
   const [Addvisible, setAddVisible] = useState(false);
-  const [chgvisible, setChgVisible] = useState(true);
+  const [chgvisible, setChgVisible] = useState(false);
 
   useEffect(() => {
     api.getList({
@@ -166,13 +165,14 @@ function chgSubmit(){
           />
         </span>
       </div>
-
-      <Table 
-      dataSource={TableData} 
-      columns={columns}
-      pagination={false} />
-    
-      <Pagination showQuickJumper defaultCurrent={2} total={500}  onChange={pageChange}/>,
+     < UserTable 
+     className='userTable'
+     dataSource={TableData}
+     columns={columns}
+     total={count}  
+     onChange={pageChange}
+    //  onChange={(page)=>{console.log(page)}}
+     ></UserTable>
       <OMobal
           visible={chgvisible}
           title="修改"
@@ -182,6 +182,7 @@ function chgSubmit(){
           }}
           okText="修改"
           cancelText="取消"
+          
         >
           <div className="item">
             <span>用户密码</span>

@@ -9,6 +9,7 @@ import User from '../../pages/User/User'
 import Product from '../../pages/Product/Product'
 import Order from '../../pages/order/order'
 import ProDetail from '../../pages/Product/ProDetail'
+import userEchart from '../../pages/echarts/echarts'
 
 const contentStyle = {
   borderTop: '1px solid #F0F2F5',
@@ -59,6 +60,7 @@ export default function Content() {
 		  <Route path='/produce'  exact component={Product}/>
       <Route path='/produce/a'  component={ProDetail}/>
       <Route path='/order' component={Order}/>
+      <Route path="/echart/a" component={userEchart} />
      
       
      

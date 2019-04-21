@@ -1,0 +1,28 @@
+.AddProduct{
+height:40px;
+line-height:40px;
+// border:1px solid red;
+ .icon{
+     font-size:16px;
+     margin-right:5px;
+ }
+ span{
+     font-size:16px;
+ }
+ button{
+     margin:4px;
+     float: right;
+ }
+}
+.twoLine{
+    padding:20px 0;
+}
+
+.cardItem{
+    box-shadow: 5px 5px 5px #bbb;
+  .toDetail{
+      &:hover{
+          color:red;
+      }
+  }
+}
