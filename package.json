@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.15.1",
     "axios": "^0.18.0",
+    "qs": "^6.6.0",
     "echarts": "^4.2.1",
     "echarts-for-react": "^2.0.15-beta.0",
     "history": "^4.9.0",
@@ -34,5 +35,6 @@
   ],
   "devDependencies": {
     "react-hot-loader": "^4.8.4"
-  }
+  },
+  "homepage": "./"
 }

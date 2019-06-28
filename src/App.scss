@@ -2,13 +2,17 @@
 
 #app{
     .v-header{
-       background: #fff;
+      background:rgb(41,78,128);
        padding: 0 ;
+       height:100px;
        .trigger{
            font-size: 18px;
        }
        .header-right{
            float: right;
+           color:#fff;
+           font-size: 16px;
+           
            span{
             display: inline-block;
             margin:0 20px;

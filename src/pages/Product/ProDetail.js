@@ -1,145 +1,162 @@
-import React  ,{useState} from 'react';
-import { Table, Divider, Tag,Cascader ,TreeSelect,Button,DatePicker } from 'antd';
+import React, { useState, useEffect } from "react";
+import {
+  Table,
+  Divider,
+  Tag,
+  Cascader,
+  TreeSelect,
+  Button,
+  DatePicker,
+  Input,
+  List,
+  message,
+  Modal,
+  Skeleton
+} from "antd";
+import api from "../../api";
 const TreeNode = TreeSelect.TreeNode;
-function ProDetail (){
- const [value,setValue]=useState(undefined)
-    const columns = [{
-        title: '序号',
-        dataIndex: 'key',
-        key: 'key',
-      }, {
-        title: '商品图片',
-        dataIndex: 'age',
-        key: 'age',
-      }, {
-        title: '商品名称',
-        dataIndex: 'address',
-        key: 'address',
-      }, 
-      {
-        title: '时间',
-        dataIndex: 'time',
-        key: 'time',
-      }, 
-      {
-        title: '商品描述',
-        dataIndex: 'desc',
-        key: 'desc',
-      },
-      //  {
-      //   title: '商品价格',
-      //   key: 'tags',
-      //   dataIndex: 'tags',
-      //   render: tags => (
-      //     <span>
-      //       {tags.map(tag => {
-      //         let color = tag.length > 5 ? 'geekblue' : 'green';
-      //         if (tag === 'loser') {
-      //           color = 'volcano';
-      //         }
-      //         return <Tag color={color} key={tag}>{tag.toUpperCase()}</Tag>;
-      //       })}
-      //     // import React  ,{useState} from 'react';
-      //   ),// import React  ,{useState} from 'react';
-      // },
-       {
-        title: '操作',
-        key: 'action',
-        render: (text, record) => (
-          <span>
-            <a href="javascript:;">编辑 {record.name}</a>
-            <Divider type="vertical" />
-            <a href="javascript:;">删除</a>
-          </span>
-        ),
-      }];
-      
-      const data = [{
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        time:11111,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-      }, {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        time:11111,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-      }, {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        time:11111,
-        address: 'Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-      }];
-      const options = [{
-        value: 'zhejiang',
-        label: 'Zhejiang',
-        children: [{
-          value: 'hangzhou',
-          label: 'Hangzhou',
-          children: [{
-            value: 'xihu',
-            label: 'West Lake',
-          }],
-        }],
-      }, {
-        value: 'jiangsu',
-        label: 'Jiangsu',
-        children: [{
-          value: 'nanjing',
-          label: 'Nanjing',
-          children: [{
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          }],
-        }],
-      }];
-      function onChange(value) {
-        console.log(value);
-      }
-      function filter(inputValue, path) {
-        return (path.some(option => (option.label).toLowerCase().indexOf(inputValue.toLowerCase()) > -1));
-      }
-    return (
-        <div>
-            <div className='information'>
-            <span>查找商品</span>
-            <TreeSelect
-        showSearch
-        style={{ width: 300 }}
-        value={value}
-        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-        placeholder="Please select"
-        allowClear
-        multiple
-        treeDefaultExpandAll
-        // onChange={this.onChange}
-      >
-        <TreeNode value="parent 1" title="parent 1" key="0-1">
-          <TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
-            <TreeNode value="leaf1" title="my leaf" key="random" />
-            <TreeNode value="leaf2" title="your leaf" key="random1" />
-          </TreeNode>
-          <TreeNode value="parent 1-1" title="parent 1-1" key="random2">
-            <TreeNode value="sss" title={<b style={{ color: '#08c' }}>sss</b>} key="random3" />
-          </TreeNode>
-        </TreeNode>
-      </TreeSelect>
-            <span>按价格查询</span>
-            <Cascader options={options} onChange={onChange} placeholder="Please select"  showSearch={{ filter }} style={{width:'200px'}}/>
-            <span>按时间查询</span>
-            <DatePicker.RangePicker/>
-            <Button type="primary">提交</Button>
-            </div>
-           <Table columns={columns} dataSource={data} />    
-        </div>
-    );
+function ProDetail(props) {
+  const [tableData, setTableData] = useState([]);
+  const [visible, setvisible] = useState(false);
+  const id = props.match.params.id;
+  console.log(props.match.params.id);
+  useEffect(() => {
+    api.getCombosWithAid(id).then(res => {
+      // setCount(res.data.total);
+      setTableData(res.data);
+      console.log(tableData);
+    });
+  }, []);
+  const columns = [
+    {
+      title: "序号",
+      dataIndex: "coId",
+      key: "coId"
+    },
+    {
+      title: "套餐名称",
+      dataIndex: "coName",
+      key: "coName"
+    },
+    {
+      title: "类型",
+      dataIndex: "coType",
+      key: "coType"
+    },
+    {
+      title: "描述",
+      dataIndex: "coDesc",
+      key: "coDesc"
+    },
+    {
+      title: "可拍摄地点",
+      dataIndex: "shootingLocations",
+      key: "shootingLocations",
+      render: (text, record) => (
+        <List
+          className="demo-loadmore-list"
+          itemLayout="horizontal"
+          dataSource={text}
+          renderItem={item => (
+            <List.Item
+              actions={[
+                <a
+                  onClick={() => {
+                    setvisible(true);
+                  }}
+                >
+                  修改价格
+                </a>,
+                <a
+                  onClick={() => {
+                    message.error("删除成功");
+                  }}
+                >
+                  删除该地点
+                </a>
+              ]}
+            >
+              <Skeleton avatar title={false} loading={item.loading} active>
+                <List.Item.Meta
+                  // avatar={
+                  //   <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                  // }
+                  title={<span>{item.lname}</span>}
+                />
+                <p>{`￥${item.comboLocation.comboPrice}`}</p>
+              </Skeleton>
+            </List.Item>
+          )}
+        />
+      )
+    },
+    //  {
+    //   title: '商品价格',
+    //   key: 'tags',
+    //   dataIndex: 'tags',
+    //   render: tags => (
+    //     <span>
+    //       {tags.map(tag => {
+    //         let color = tag.length > 5 ? 'geekblue' : 'green';
+    //         if (tag === 'loser') {
+    //           color = 'volcano';
+    //         }
+    //         return <Tag color={color} key={tag}>{tag.toUpperCase()}</Tag>;
+    //       })}
+    //     // import React  ,{useState} from 'react';
+    //   ),// import React  ,{useState} from 'react';
+    // // },
+    {
+      title: "操作",
+      key: "action",
+      render: (text, record) => (
+        <span>
+          <a
+            href="javascript:;"
+            onClick={() => {
+              setvisible(true);
+            }}
+          >
+            修改
+          </a>
+          <Divider type="vertical" />
+          <a
+            href="javascript:;"
+            onClick={() => {
+              message.error("删除成功");
+            }}
+          >
+            删除
+          </a>
+        </span>
+      )
+    }
+  ];
 
+  return (
+    <div>
+      <Table columns={columns} dataSource={tableData} bordered={true} />
+      <Modal
+        title="修改信息"
+        visible={visible}
+        onOk={() => {
+          setvisible(false);
+          message.warn("嘿~，修改了");
+        }}
+        onCancel={() => {
+          setvisible(false);
+        }}
+      >
+        <span>套餐名称：</span>
+        <Input placeholder="" style={{ margin: "20px 0" }} />
+        <span>套餐描述：</span>
+
+        <Input placeholder="" style={{ margin: "20px 0" }} />
+        <span>套餐价格：</span>
+        <Input placeholder="" style={{ margin: "20px 0" }} />
+      </Modal>
+    </div>
+  );
 }
 
 export default ProDetail;
