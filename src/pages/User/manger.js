@@ -12,7 +12,7 @@ import {
 import api from "../../api/index";
 import OMobal from "../../components/oModal/oModal.js";
 import "./User.scss";
-import UserTable from "../../components/oTable/oTable";
+
 const RadioGroup = Radio.Group;
 function User() {
   const [addName, setAddName] = useState("");
@@ -26,6 +26,7 @@ function User() {
   const [Addvisible, setAddVisible] = useState(false);
   const [chgvisible, setChgVisible] = useState(false);
   const [chgPassword, setchgPassword] = useState("");
+  const [chgName,setchgName]=useState('');
 
   useEffect(() => {
     api.getAllEmployee().then(res => {
@@ -66,6 +67,7 @@ function User() {
             type="dashed"
             onClick={() => {
               setChgVisible(true);
+              setchgName(record.eid);
             }}
           >
             修改{record.username}信息
@@ -116,10 +118,11 @@ function User() {
       });
   }
 
-  function chgSubmit() {
+  function chgSubmit(text) {
     api
       .editEmployee({
-        password: chgPassword
+        password: chgPassword,
+        eid:chgName
       })
       .then(res => {
         message.warning("修改完成");
@@ -136,7 +139,7 @@ function User() {
             setAddVisible(true);
           }}
         >
-          新增
+          新增管理员
         </Button>
         <OMobal
           visible={Addvisible}
@@ -186,7 +189,7 @@ function User() {
         className="userTable"
         dataSource={TableData}
         columns={columns}
-        pagination={false}
+        // pagination={false}
       />
       <OMobal
         visible={chgvisible}

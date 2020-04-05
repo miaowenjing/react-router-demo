@@ -4,6 +4,7 @@ import "./order.scss";
 import UserTable from "../../components/oTable/oTable";
 // import { useState, useEffect } from 'react';
 import api from "../../api/index";
+import config from '../../config'
 import { Record } from "immutable";
 const Panel = Collapse.Panel;
 function getBase64(file) {
@@ -87,7 +88,7 @@ function order() {
       key: "action",
       render: (text, { comOrderId, comboOrderState }) => (
         <span>
-          <Button
+          {/* <Button
             style={{ margin: "0 15px" }}
             onClick={() => {
               console.log(comboOrderState.osId);
@@ -96,13 +97,13 @@ function order() {
             disabled={comboOrderState.osId == 1 ? false : true}
           >
             付款
-          </Button>
+          </Button> */}
           <Button
             style={{ margin: "0 15px" }}
             onClick={() => {
               chgState(comOrderId, 3);
             }}
-            disabled={comboOrderState.osId == 2 ? false : true}
+            // disabled={comboOrderState.osId == 2 ? false : true}
           >
             拍摄完成
           </Button>
@@ -111,7 +112,7 @@ function order() {
             onClick={() => {
               chgState(comOrderId, 4);
             }}
-            disabled={comboOrderState.osId !== 3 ? false : true}
+            // disabled={comboOrderState.osId !== 3 ? false : true}
           >
             取消订单
           </Button>
@@ -125,7 +126,7 @@ function order() {
       render: (text, { comOrderId, comboOrderState }) => (
         <Button
           style={{ margin: "0 15px" }}
-          disabled={comboOrderState.osId == 3 ? false : true}
+          // disabled={comboOrderState.osId == 3 ? false : true}
           onClick={() => {
             setuploadVisible(true);
           }}
@@ -154,6 +155,9 @@ function order() {
 
   function handleUpload() {
     setuploadVisible(true);
+
+
+
   }
 
   function chgState(orderId, osId) {
@@ -195,13 +199,13 @@ function order() {
       >
         <div className="clearfix">
           <Upload
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            action={config.baseUrl+'/uploadPicture'}
             listType="picture-card"
             fileList={fileList}
             onPreview={handlePreview}
             onChange={handleChange}
           >
-            {fileList.length >= 5? null : uploadButton}
+            {uploadButton}
           </Upload>
           <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
             <img alt="example" style={{ width: "100%" }} src={previewImage} />

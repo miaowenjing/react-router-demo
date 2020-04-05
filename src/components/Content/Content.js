@@ -14,14 +14,14 @@ import ProDetail from "../../pages/Product/ProDetail";
 import userEchart from "../../pages/echarts/echarts";
 
 const contentStyle = {
-  borderTop: "1px solid #F0F2F5",
+  // borderTop: "1px solid #F0F2F5",
   minHeight: 280
 };
 
 const descStyle = {
   padding: "18px 32px",
   paddingLeft: "32px",
-  backgroundColor: "#fff"
+  // backgroundColor: "#fff"
 };
 
 export default function Content() {
@@ -46,15 +46,6 @@ export default function Content() {
   return (
     <Layout.Content style={contentStyle}>
       <div style={descStyle}>
-        {/* <Breadcrumb style={{ margin: '0 0 18px 0' }}>
-          <Breadcrumb.Item>黑天鹅</Breadcrumb.Item>
-          <Breadcrumb.Item>{}</Breadcrumb.Item>
-        </Breadcrumb> */}
-        {/* <Breadcrumb
-          itemRender={itemRender}
-          routes={routes}
-          style={{ margin: "0 0 18px 0" }}
-        /> */}
         <h2 style={{ margin: 0 }}>{menuName}- 已登录</h2>
       </div>
       <Switch>

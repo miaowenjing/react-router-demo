@@ -1,32 +1,40 @@
 @import '~antd/dist/antd.css';
 
 #app{
-    .v-header{
-      background:rgb(41,78,128);
-       padding: 0 ;
-       height:100px;
-       .trigger{
-           font-size: 18px;
-       }
-       .header-right{
-           float: right;
-           color:#fff;
-           font-size: 16px;
-           
-           span{
-            display: inline-block;
-            margin:0 20px;
-             }
-           .exit{
-               margin-right: 20px;
-               font-size:18px;
-               &:hover{
-                   color:#e39458
-               }
-             }
-       }
-    // 
-    //  
+    // border:1px solid red;
+    background:url('./imgs/bj5.jpeg') no-repeat;
+    background-size: 100% 100%;
+    .ant-layout{
+        background:none;
     }
+    .v-header{
+          background:#e6f7ff;
+          display: flex;
+          color:#1890ff;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+          align-items: center;
+          opacity: 0.5;
+           height:55px;
+           .trigger{
+               font-size: 18px;
+           }
+           .header-right{
+            //    height:40px;
+               color:#1890ff;
+               display: flex;
+               font-weight: 700;
+               flex-direction: column;
+               .exit{
+            
+                 }
+               span{
+                   line-height: 20px
+               }
+               &:hover{
+                color:#ff7600
+            }
+           }
+        }
 }
 

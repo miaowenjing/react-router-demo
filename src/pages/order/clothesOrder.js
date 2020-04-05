@@ -9,25 +9,6 @@ function colthesOrder() {
     const [count, setCount] = useState(0);
     const [current, setCurrent] = useState(1);
     const [TableData, setTableData] = useState(null);
-    useEffect(() => {
-                      // api
-                      //     .getAllComboOrders({
-                      //         pageNum: current,
-                      //         rows: 10
-                      //     })
-                      //     .then(res => {
-                      //         setCount(res.data.total);
-                      //         setTableData(res.data.rows);
-                      //         console.log(res.data.rows);
-                      //     });
-                      api
-                        .getAllClothesOrders()
-                        .then(res => {
-                        //   setCount(res.data.total);
-                          setTableData(res.data);
-                          console.log(res.data);
-                        });
-                    }, [current]);
     const columns = [
       {
         title: "订单编号",
@@ -68,15 +49,19 @@ function colthesOrder() {
         title: "修改状态",
         dataIndex: "action",
         key: "action",
-        render: (text, { clothesOrderState }) => (
+        render: (text, { clothesOrderState ,cloOrderId}) => (
           <span>
             <Button
               style={{ margin: "0 15px" }}
               onClick={() => {
-                console.log(clothesOrderState.cosName);
-                // chgState(comOrderId, 2);
+                console.log(clothesOrderState,cloOrderId );
+                api.editClothesOrder({'clothesOrderState.cosId':2,cloOrderId:cloOrderId}).then(
+                  ()=>{
+                    getData();
+                  }
+                )
               }}
-              disabled={clothesOrderState.cosId == 1 ? false : true}
+              // disabled={clothesOrderState.cosId == 1 ? false : true}
             >
               借出
             </Button>
@@ -84,8 +69,14 @@ function colthesOrder() {
               style={{ margin: "0 15px" }}
               onClick={() => {
                 // chgState(comOrderId, 3);
+                api.editClothesOrder({'clothesOrderState.cosId':3,cloOrderId:cloOrderId}).then(
+                  ()=>{
+                    getData();
+                  }
+                )
+                
               }}
-              disabled={clothesOrderState.cosId == 3 ? false : true}
+              // disabled={clothesOrderState.cosId == 2 ? false : true}
             >
               归还
             </Button>
@@ -93,6 +84,21 @@ function colthesOrder() {
         )
       }
     ];
+   
+    useEffect(() => {
+                      // api
+                      //     .getAllComboOrders({
+                      //         pageNum: current,
+                      //         rows: 10
+                      //     })
+                      //     .then(res => {
+                      //         setCount(res.data.total);
+                      //         setTableData(res.data.rows);
+                      //         console.log(res.data.rows);
+                      //     });
+                     getData();
+                    }, [current]);
+  
     function chgState(orderId, osId) {
         console.log(orderId, osId);
         api.editOrderStateWithId(`${orderId}/${osId}`).then(res => {
@@ -101,6 +107,15 @@ function colthesOrder() {
     }
     function pageChange(page) {
         setCurrent(page);
+    }
+    function getData(){
+      api
+      .getAllClothesOrders()
+      .then(res => {
+      //   setCount(res.data.total);
+        setTableData(res.data);
+        console.log(res.data);
+      });
     }
     function callback(key) {
         console.log(key);

@@ -16,18 +16,18 @@ class Login extends Component {
   handleSubmit = () => {
     // this.props.history.push("/logined");
     api
-      .employeeLogin({
-        username: this.state.custPhone,
-        password: this.state.password
-      })
+      .employeeLogin(`${this.state.custPhone}/${this.state.password}`)
       .then(res => {
-        localStorage.setItem("eid", res.data.employee.eid);
-        localStorage.setItem("username", res.data.employee.username);
-        this.props.history.push("/logined");
+        if (res.success) {
+          localStorage.setItem("eid",  res.employee.rid);
+          localStorage.setItem("username", res.employee.rname);
+          localStorage.setItem('role',JSON.stringify(res.employee.role.permissions))
+          this.props.history.push("/logined");
+        }else{
+          message.error("登录失败")
+        }
+
       })
-      .catch(() => {
-        message.error("登陆失败");
-      });
   };
   render() {
     return (

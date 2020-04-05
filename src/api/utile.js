@@ -38,5 +38,5 @@ export function del(url, param) {
     return ax.delete(url, { params: { param } }).then((data) => data.data)
 }
 export function upload(url,param) {
-    return ax.post(url,{params:{param}}).then((data)=>data.data)
+    return axUpload.post(url,param).then((data)=>data.data)
 }

@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Table, Divider, Button, Input,message, Modal, Radio, Pagination } from "antd";
 import api from "../../api/index";
-import OMobal from "../../components/oModal/oModal.js";
+
 import "./User.scss";
 import UserTable from "../../components/oTable/oTable";
-const RadioGroup = Radio.Group;
+// import OMobal from "../../components/oModal/oModal.js";
+
 function User() {
   const [count, setCount] = useState(0);
   const [current, setCurrent] = useState(1);
   const [TableData, setTableData] = useState(null);
   const [fresh,setFresh] = useState(true)
 
+  // useEffect(() => {
+  //    api.customerIndex().then((res)=>{
+  //      console.log(res)
+  //    })
+  // }, []);
   useEffect(() => {
-    api
-      .getAllCustomer({
-        pageNum: current,
-        rows: 10
-      })
-      .then(res => {
-        setCount(res.data.total);
-        setTableData(res.data.rows);
-      });
+    getData();
   }, [current,fresh]);
+
 
   const columns = [
     {
@@ -44,12 +43,6 @@ function User() {
       dataIndex: "password",
       key: "password"
     },
-    // {
-    //   title: "更多",
-    //   dataIndex: "address",
-    //   key: "address",
-    //   render: () => <a>查看更多信息</a>
-    // },
     {
       title: "操作",
       dataIndex: "action",
@@ -61,22 +54,30 @@ function User() {
     }
   ];
 
+  function getData(){
+    api
+    .getAllCustomer({
+      pageNum: current,
+      rows: 10
+    })
+    .then(res => {
+      setCount(res.data.total);
+      setTableData(res.data.rows);
+    });
+  }
   function showDeleteConfirm(id) {
     Modal.confirm({
       title: "确认删除?",
-      // content: "Some descriptions",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
       onOk() {
-        api.deleteCustomer(id).then(()=>{
-          message.error('删除完成')
-        })
+        // api.deleteCustomer(id).then(()=>{
+        //   message.error('删除完成')
+        // })
         setFresh(!fresh);
+        console.log(fresh);
       },
-      onCancel() {
-        console.log("Cancel");
-      }
     });
   }
   function pageChange(page) {
@@ -91,6 +92,7 @@ function User() {
         columns={columns}
         total={count}
         onChange={pageChange}
+        pagination={false}
         //  onChange={(page)=>{console.log(page)}}
       />
     </div>

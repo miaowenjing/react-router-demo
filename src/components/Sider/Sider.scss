@@ -1,10 +1,49 @@
 #Sider{
-  h2{
+  // h2{
+  //   color:#fff;
+  //   font-size:18px;
+  //   height: 90px;
+  //   line-height: 80px;
+  //   text-align: center;
+  //   font-weight: 800
+  // }
+  background:none;
+  color:#fff;
+  .userInfo{
+    padding:50px 0; 
+    display:flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    // text-align: center;
+    div{
+      flex:1;
+    }
+    .userPic{
+      // background: -webkit-radial-gradient( circle closest-side,#009966 50%,lightpink 50%);
+      img{
+        
+        width:70px;
+        height:70px;
+        border-radius: 50%;
+      }
+    }
+    .userName{
+      line-height: 40px;
+    }
+    .solgan{
+      // line-height: 40px;
+     padding:5px 10px;
+     border-radius: 15px;
+      border:1px solid #fff;
+      
+    }
+  }
+  .ant-menu{
+    background:none;
     color:#fff;
-    font-size:18px;
-    height: 90px;
-    line-height: 80px;
-    text-align: center;
-    font-weight: 800
+    .ant-menu-submenu-arrow{
+      color:#Fff;
+    }
   }
 }

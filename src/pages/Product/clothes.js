@@ -31,16 +31,18 @@ function User() {
   // const [page,setPage]=useState(1)
   const [Addvisible, setAddVisible] = useState(false);
   const [chgvisible, setChgVisible] = useState(false);
+  const [addFormData, setAddFormData] = useState(null)
 
   useEffect(() => {
     api
       .getAllRentClothes({
-        pageNum: 1,
-        rows: 5
+        // pageNum: 1,
+        // rows: 5
       })
       .then(res => {
         setCount(res.data.total);
-        setTableData(res.data.rows);
+        // setTableData(res.data.rows);
+        setTableData(res.data);
         console.log(res.data);
       });
   }, []);
@@ -56,7 +58,8 @@ function User() {
       dataIndex: "cloPicture",
       key: "eid",
       render: (text, record) => (
-        <img className="pic" src={require(`../../imgs/${text}`)} />
+        // <img className="pic" src={require(`../../imgs/${text}`)} />
+        <img className="pic" src={`${config.baseUrl}/images/${text}`} />
       )
     },
     {
@@ -116,7 +119,7 @@ function User() {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        api.deleteRentClothesWithId(id).then(()=>{
+        api.deleteRentClothesWithId(id).then(() => {
           message.error('删除成功')
         })
       }
@@ -127,22 +130,28 @@ function User() {
   }
   function addSubmit() {
     const formData = new FormData();
-    // formData.append( addAvatar);
-    console.log(addName, addPrice, addAmount, addType, addAvatar.name);
-    api
-      .addRentClothes(
-        `${addName}/${addPrice}/${addAvatar.name}/${addAmount}/${addType}`
-      )
-      .then(res => {
-        console.log(res);
-        message.info('biubiu，添加成功了');
-        setAddVisible(false)
-        // setAddVisible(true);
+    console.log(addFormData, addName, addPrice, addAmount, addType)
 
-      }).catch(()=>{
-        message.error('哎呀，添加失败了');
-        setAddVisible(false)
-      });
+
+
+  // api.addRentClothes()
+
+    // formData.append( addAvatar);
+    // console.log(addName, addPrice, addAmount, addType, addAvatar.name);
+    // api
+    //   .addRentClothes(
+    //     `${addName}/${addPrice}/${addAvatar.name}/${addAmount}/${addType}`
+    //   )
+    //   .then(res => {
+    //     console.log(res);
+    //     message.info('biubiu，添加成功了');
+    //     setAddVisible(false)
+    //     // setAddVisible(true);
+
+    //   }).catch(()=>{
+    //     message.error('哎呀，添加失败了');
+    //     setAddVisible(false)
+    //   });
   }
   function handleSearch(e) {
     // api.getList({
@@ -152,39 +161,71 @@ function User() {
   function chgSubmit() {
     const formData = new FormData();
     // formData.append( addAvatar);
-    api
-      .addRentClothes(
-        `${addName}/${addPrice}/${addAvatar.name}/${addAmount}/${addType}`
-      )
-      .then(res => {
-        console.log(res);
-        message.info('嘻嘻嘻，修改成功了');
-        setAddVisible(false)
-        // setAddVisible(true);
+    console.log()
+    // api.chg
+    // api
+    //   .addRentClothes(
+    //     `${addName}/${addPrice}/${addAvatar.name}/${addAmount}/${addType}`
+    //   )
+    //   .then(res => {
+    //     console.log(res);
+    //     message.info('嘻嘻嘻，修改成功了');
+    //     setAddVisible(false)
+    //     // setAddVisible(true);
 
-      }).catch(() => {
-        message.error('妈呀，修改失败了');
-        setChgVisible(false);
-      });
+    //   }).catch(() => {
+    //     message.error('妈呀，修改失败了');
+    //     setChgVisible(false);
+    //   });
   }
   const props = {
     name: "file",
     multiple: true,
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    // action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    // action:`${api.addRentClothes}?cloName=dcsac&cloPrice=12&cloAmount=12&cloType=1`,
     onChange(info) {
-      const status = info.file.status;
-      let file = info.fileList[0];
-      setaddAvatar(file);
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList, file);
-      }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
+      // const status = info.file.status;
+      // let file = info.fileList[0];
+      // setaddAvatar(file);
+      // if (status !== "uploading") {
+      //   console.log(info.file, info.fileList, file);
+      // }
+      // if (status === "done") {
+      //   message.success(`${info.file.name} file uploaded successfully.`);
+      // } else if (status === "error") {
+      //   message.error(`${info.file.name} file upload failed.`);
+      // }
+      const obj = new FormData();
+      obj.set('file', info.file.originFileObj)
+      console.log(obj, info.file.originFileObj)
+      setAddFormData(obj)
+      api.addRentClothes(obj)
     }
   };
+
+
+  function handleFileChange(e) {
+    const input = e.target;
+    const files = e.target.files;
+    const formData = new FormData();
+    if (files && files[0]) {
+      const file = files[0];
+
+      formData.append("file", file);
+      console.log(file)
+      api.addRentClothes(file)
+      //  if(file.size > 1024 * 1024 *3) {
+      //     //  fileTip.innerHTML = '文件大小不能超过3M!';
+      //      input.value = '';
+      //      return false;
+      //  } else {
+      //     //  fileTip.innerHTML = '';
+
+      //  }
+    }
+  }
+
+
   return (
     <div className="clothes">
       <div className="information">
@@ -217,12 +258,16 @@ function User() {
             />
           </div>
           <div className="item">
-            <Dragger {...props}>
+            {/* <Dragger {...props}>
               <p className="ant-upload-drag-icon">
                 <Icon type="user-add" />
               </p>
               <p className="ant-upload-text">点击或拖拽上传头像</p>
-            </Dragger>
+            </Dragger> */}
+            <div className="section-pushInChannel-fileInput">
+              <input id="file" onChange={handleFileChange} type="file" name="file" multiple="multiple"></input>
+              {/* <div className="fileTip"></div> */}
+            </div>
           </div>
           <div className="item">
             <Input
@@ -278,14 +323,14 @@ function User() {
             }}
           />
         </div>
-        <div className="item">
+        {/* <div className="item">
           <Dragger {...props}>
             <p className="ant-upload-drag-icon">
               <Icon type="user-add" />
             </p>
             <p className="ant-upload-text">点击或拖拽上传</p>
           </Dragger>
-        </div>
+        </div> */}
         <div className="item">
           <Input
             placeholder="输入价格"

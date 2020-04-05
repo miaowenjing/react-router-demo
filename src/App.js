@@ -8,24 +8,24 @@ import Sider from './components/Sider/Sider'
 import Content from './components/Content/Content';
 
 
-const { Header} = Layout;
-function App (){
- const[collapsed,setCollapsed]=useState(false)
+const { Header } = Layout;
+function App() {
+  const [collapsed, setCollapsed] = useState(false)
 
-  function toggle (){
+  function toggle() {
     setCollapsed(!collapsed);
-   
+
   }
-  const username=localStorage.getItem('username')
-  
+  const username = localStorage.getItem('username')
 
 
-    return (
-      <div>
-        <Layout style={{ height: "100vh" }} id="app">
-          <Sider collapsed={collapsed} />
-          <Layout>
-            <Header className="v-header">
+
+  return (
+    <div>
+      <Layout style={{ height: "100vh" }} id="app">
+        <Sider collapsed={collapsed} />
+        <Layout>
+          <Header className="v-header">
               <Icon
                 className="trigger"
                 type={collapsed ? "menu-unfold" : "menu-fold"}
@@ -34,17 +34,17 @@ function App (){
               />
               <Link to='/'>
                 <div className="header-right" >
-                  <span>你好，{username}</span>
                   <Icon type="close-circle" className="exit" />
+                  <span>退出</span>
                 </div>
               </Link>
             </Header>
             <Content />
-          </Layout>
         </Layout>
-      </div>
-    );
-  }
+      </Layout>
+    </div>
+  );
+}
 
 
 export default App;
