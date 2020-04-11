@@ -7,7 +7,7 @@ import {
   Modal,
   Radio,
   message,
-  Pagination,
+  Select,
   Upload,
   Icon,
 } from "antd";
@@ -16,47 +16,44 @@ import config from "../../config/index";
 import OMobal from "../../components/oModal/oModal.js";
 import "./clothes.scss";
 import UserTable from "../../components/oTable/oTable";
-const Dragger = Upload.Dragger;
+
+const { Option } = Select;
 const RadioGroup = Radio.Group;
 function User() {
   const [addName, setAddName] = useState("");
+  const [addPic, setaddPic] = useState("");
   const [addPrice, setaddPrice] = useState("");
   const [addAmount, setaddAmount] = useState("");
   const [addType, setaddType] = useState("");
-  const [addAvatar, setaddAvatar] = useState({});
   const [count, setCount] = useState(0);
-  const [searchData, setSearchData] = useState("");
   const [current, setCurrent] = useState(1);
   const [TableData, setTableData] = useState(null);
-  // const [page,setPage]=useState(1)
   const [Addvisible, setAddVisible] = useState(false);
-  const [chgvisible, setChgVisible] = useState(false);
-  const [addFormData, setAddFormData] = useState(null)
+  const [fresh, setFresh] = useState(true)
 
-  useEffect(() => {
-    api
-      .getAllRentClothes({
-        // pageNum: 1,
-        // rows: 5
-      })
-      .then(res => {
-        setCount(res.data.total);
-        // setTableData(res.data.rows);
-        setTableData(res.data);
-        console.log(res.data);
-      });
-  }, []);
+  const props = {
+    name: "file",
+    action: config.baseUrl + '/uploadPicture',
+    onChange(info) {
+      const status = info.file.status;
+      if (status === "done") {
+        setaddPic(info.file.response)
+      }
+
+    }
+  };
+  const typeList=[null,'礼服','婚纱','汉服','cosplay']
 
   const columns = [
     {
       title: "序号",
       dataIndex: "cloId",
-      key: "eid"
+      key: "cloId"
     },
     {
       title: "图片",
       dataIndex: "cloPicture",
-      key: "eid",
+      key: "cloPicture",
       render: (text, record) => (
         // <img className="pic" src={require(`../../imgs/${text}`)} />
         <img className="pic" src={`${config.baseUrl}/images/${text}`} />
@@ -82,14 +79,14 @@ function User() {
       title: "类型",
       dataIndex: "cloType",
       key: "cloType",
-      render: (text, record) => <span>123</span>
+      render: (text, record) => <span>{typeList[text]}</span>
     },
     {
       title: "操作",
       dataIndex: "action",
       render: (text, record) => (
         <span>
-          <Button
+          {/* <Button
             type="dashed"
             onClick={() => {
               setChgVisible(true);
@@ -97,7 +94,7 @@ function User() {
           >
             修改{record.username}信息
           </Button>
-          <Divider type="vertical" />
+          <Divider type="vertical" /> */}
 
           <Button
             onClick={() => {
@@ -111,6 +108,18 @@ function User() {
       )
     }
   ];
+  useEffect(() => {
+    api
+      .getAllRentClothes({
+        pageNum: current,
+        rows: 3
+      })
+      .then(res => {
+        console.log(res)
+        setCount(res.data.total);
+        setTableData(res.data.rows);
+      });
+  }, [current, fresh]);
 
   function showDeleteConfirm(id) {
     Modal.confirm({
@@ -120,7 +129,8 @@ function User() {
       cancelText: "No",
       onOk() {
         api.deleteRentClothesWithId(id).then(() => {
-          message.error('删除成功')
+          message.error('删除成功');
+          setFresh(!fresh)
         })
       }
     });
@@ -129,102 +139,15 @@ function User() {
     setCurrent(page);
   }
   function addSubmit() {
-    const formData = new FormData();
-    console.log(addFormData, addName, addPrice, addAmount, addType)
-
-
-
-  // api.addRentClothes()
-
-    // formData.append( addAvatar);
-    // console.log(addName, addPrice, addAmount, addType, addAvatar.name);
-    // api
-    //   .addRentClothes(
-    //     `${addName}/${addPrice}/${addAvatar.name}/${addAmount}/${addType}`
-    //   )
-    //   .then(res => {
-    //     console.log(res);
-    //     message.info('biubiu，添加成功了');
-    //     setAddVisible(false)
-    //     // setAddVisible(true);
-
-    //   }).catch(()=>{
-    //     message.error('哎呀，添加失败了');
-    //     setAddVisible(false)
-    //   });
+    api.addRentClothes(`cloName=${addName}&cloPrice=${addPrice}&cloPicture=${addPic}&cloAmount=${addAmount}&cloType=${addType}`).then(res => {
+      message.info('biubiu，添加成功了');
+      setAddVisible(false);
+      setFresh(!fresh)
+    }).catch(() => {
+      message.error('哎呀，添加失败了');
+      setAddVisible(false)
+    });
   }
-  function handleSearch(e) {
-    // api.getList({
-    //   id: e
-    // });
-  }
-  function chgSubmit() {
-    const formData = new FormData();
-    // formData.append( addAvatar);
-    console.log()
-    // api.chg
-    // api
-    //   .addRentClothes(
-    //     `${addName}/${addPrice}/${addAvatar.name}/${addAmount}/${addType}`
-    //   )
-    //   .then(res => {
-    //     console.log(res);
-    //     message.info('嘻嘻嘻，修改成功了');
-    //     setAddVisible(false)
-    //     // setAddVisible(true);
-
-    //   }).catch(() => {
-    //     message.error('妈呀，修改失败了');
-    //     setChgVisible(false);
-    //   });
-  }
-  const props = {
-    name: "file",
-    multiple: true,
-    // action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    // action:`${api.addRentClothes}?cloName=dcsac&cloPrice=12&cloAmount=12&cloType=1`,
-    onChange(info) {
-      // const status = info.file.status;
-      // let file = info.fileList[0];
-      // setaddAvatar(file);
-      // if (status !== "uploading") {
-      //   console.log(info.file, info.fileList, file);
-      // }
-      // if (status === "done") {
-      //   message.success(`${info.file.name} file uploaded successfully.`);
-      // } else if (status === "error") {
-      //   message.error(`${info.file.name} file upload failed.`);
-      // }
-      const obj = new FormData();
-      obj.set('file', info.file.originFileObj)
-      console.log(obj, info.file.originFileObj)
-      setAddFormData(obj)
-      api.addRentClothes(obj)
-    }
-  };
-
-
-  function handleFileChange(e) {
-    const input = e.target;
-    const files = e.target.files;
-    const formData = new FormData();
-    if (files && files[0]) {
-      const file = files[0];
-
-      formData.append("file", file);
-      console.log(file)
-      api.addRentClothes(file)
-      //  if(file.size > 1024 * 1024 *3) {
-      //     //  fileTip.innerHTML = '文件大小不能超过3M!';
-      //      input.value = '';
-      //      return false;
-      //  } else {
-      //     //  fileTip.innerHTML = '';
-
-      //  }
-    }
-  }
-
 
   return (
     <div className="clothes">
@@ -258,16 +181,11 @@ function User() {
             />
           </div>
           <div className="item">
-            {/* <Dragger {...props}>
+            <Upload {...props}>
               <p className="ant-upload-drag-icon">
-                <Icon type="user-add" />
+                <Button>点击上传图片</Button>
               </p>
-              <p className="ant-upload-text">点击或拖拽上传头像</p>
-            </Dragger> */}
-            <div className="section-pushInChannel-fileInput">
-              <input id="file" onChange={handleFileChange} type="file" name="file" multiple="multiple"></input>
-              {/* <div className="fileTip"></div> */}
-            </div>
+            </Upload>
           </div>
           <div className="item">
             <Input
@@ -288,77 +206,34 @@ function User() {
             />
           </div>
           <div className="item">
-            <Input
+            {/* <Input
               placeholder="输入类型"
               value={addType}
               onChange={val => {
                 setaddType(val.target.value);
-              }}
-            />
+              }} */}
+            <Select defaultValue="1" style={{ width: 120 }} onChange={val => {
+                setaddType(val);
+                // console.log(val)
+              }}>
+              <Option value="1">礼服</Option>
+              <Option value="2">婚纱</Option>
+              <Option value="3">汉服</Option>
+              <Option value="4">cosplay</Option>
+            </Select>
+            {/* /> */}
           </div>
         </OMobal>
       </div>
-      <Table
+      <UserTable
         className="userTable"
         dataSource={TableData}
         columns={columns}
-        pagination={false}
+        total={count}
+        pageSize={3}
+        onChange={pageChange}
       />
-      <OMobal
-        visible={chgvisible}
-        title="修改"
-        onOk={chgSubmit}
-        onCancel={() => {
-          setChgVisible(false);
-        }}
-        okText="修改"
-        cancelText="取消"
-      >
-        <div className="item">
-          <Input
-            placeholder="修改服装名称"
-            value={addName}
-            onChange={val => {
-              setAddName(val.target.value);
-            }}
-          />
-        </div>
-        {/* <div className="item">
-          <Dragger {...props}>
-            <p className="ant-upload-drag-icon">
-              <Icon type="user-add" />
-            </p>
-            <p className="ant-upload-text">点击或拖拽上传</p>
-          </Dragger>
-        </div> */}
-        <div className="item">
-          <Input
-            placeholder="输入价格"
-            value={addPrice}
-            onChange={val => {
-              setaddPrice(val.target.value);
-            }}
-          />
-        </div>
-        <div className="item">
-          <Input
-            placeholder="输入数量"
-            value={addAmount}
-            onChange={val => {
-              setaddAmount(val.target.value);
-            }}
-          />
-        </div>
-        <div className="item">
-          <Input
-            placeholder="输入类型"
-            value={addType}
-            onChange={val => {
-              setaddType(val.target.value);
-            }}
-          />
-        </div>
-      </OMobal>
+
     </div>
   );
 }

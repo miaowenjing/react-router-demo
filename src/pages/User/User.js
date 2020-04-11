@@ -7,16 +7,12 @@ import UserTable from "../../components/oTable/oTable";
 // import OMobal from "../../components/oModal/oModal.js";
 
 function User() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState();
   const [current, setCurrent] = useState(1);
   const [TableData, setTableData] = useState(null);
   const [fresh,setFresh] = useState(true)
 
-  // useEffect(() => {
-  //    api.customerIndex().then((res)=>{
-  //      console.log(res)
-  //    })
-  // }, []);
+
   useEffect(() => {
     getData();
   }, [current,fresh]);
@@ -26,22 +22,28 @@ function User() {
     {
       title: "序号",
       dataIndex: "custId",
-      key: "custId"
+      key: "custId",
     },
     {
       title: "姓名",
       dataIndex: "custName",
-      key: "custName"
+      key: "custName",
+      render: text => 
+      <span>{text||'一'}</span>
     },
     {
       title: "账号",
       dataIndex: "custPhone",
-      key: "custPhone"
+      key: "custPhone",
+      render: text => 
+      <span>{text||'一'}</span>
     },
     {
       title: "密码",
       dataIndex: "password",
-      key: "password"
+      key: "password",
+      render: text => 
+      <span>{text||'一'}</span>
     },
     {
       title: "操作",
@@ -72,11 +74,11 @@ function User() {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        // api.deleteCustomer(id).then(()=>{
-        //   message.error('删除完成')
-        // })
-        setFresh(!fresh);
-        console.log(fresh);
+        api.deleteCustomer(id).then(()=>{
+          message.error('删除完成')
+          setFresh(!fresh);
+        })
+       
       },
     });
   }
@@ -90,9 +92,10 @@ function User() {
         className="userTable"
         dataSource={TableData}
         columns={columns}
+        pageSize={10}
         total={count}
         onChange={pageChange}
-        pagination={false}
+        // pagination={false}
         //  onChange={(page)=>{console.log(page)}}
       />
     </div>

@@ -9,6 +9,7 @@ function colthesOrder() {
     const [count, setCount] = useState(0);
     const [current, setCurrent] = useState(1);
     const [TableData, setTableData] = useState(null);
+    const [fresh,setFresh] = useState(true);
     const columns = [
       {
         title: "订单编号",
@@ -39,11 +40,10 @@ function colthesOrder() {
         key: "clothesOrderDate"
       },
       {
-        title: "拍摄状态",
+        title: "租赁状态",
         dataIndex: "clothesOrderState",
         key: "clothesOrderState",
         render: text => <span>{text ? text.cosName : "无状态"}</span>
-        // console.log(text.osState)
       },
       {
         title: "修改状态",
@@ -54,29 +54,27 @@ function colthesOrder() {
             <Button
               style={{ margin: "0 15px" }}
               onClick={() => {
-                console.log(clothesOrderState,cloOrderId );
-                api.editClothesOrder({'clothesOrderState.cosId':2,cloOrderId:cloOrderId}).then(
+                api.editClothesOrder({'clothesOrderState.cosId':3,cloOrderId:cloOrderId}).then(
                   ()=>{
-                    getData();
+                    setFresh(!fresh);
                   }
                 )
               }}
-              // disabled={clothesOrderState.cosId == 1 ? false : true}
+              disabled={clothesOrderState.cosId == 2? false : true}
             >
               借出
             </Button>
             <Button
               style={{ margin: "0 15px" }}
               onClick={() => {
-                // chgState(comOrderId, 3);
-                api.editClothesOrder({'clothesOrderState.cosId':3,cloOrderId:cloOrderId}).then(
+                api.editClothesOrder({'clothesOrderState.cosId':4,cloOrderId:cloOrderId}).then(
                   ()=>{
-                    getData();
+                    setFresh(!fresh);
                   }
                 )
                 
               }}
-              // disabled={clothesOrderState.cosId == 2 ? false : true}
+              disabled={clothesOrderState.cosId == 3 ? false : true}
             >
               归还
             </Button>
@@ -86,56 +84,38 @@ function colthesOrder() {
     ];
    
     useEffect(() => {
-                      // api
-                      //     .getAllComboOrders({
-                      //         pageNum: current,
-                      //         rows: 10
-                      //     })
-                      //     .then(res => {
-                      //         setCount(res.data.total);
-                      //         setTableData(res.data.rows);
-                      //         console.log(res.data.rows);
-                      //     });
                      getData();
-                    }, [current]);
+                    }, [current,fresh]);
   
-    function chgState(orderId, osId) {
-        console.log(orderId, osId);
-        api.editOrderStateWithId(`${orderId}/${osId}`).then(res => {
-            console.log(res);
-        });
-    }
+    // function chgState(orderId, osId) {
+    //     console.log(orderId, osId);
+    //     api.editOrderStateWithId(`${orderId}/${osId}`).then(res => {
+    //         console.log(res);
+    //     });
+    // }
     function pageChange(page) {
         setCurrent(page);
     }
     function getData(){
       api
-      .getAllClothesOrders()
+      .getAllClothesOrders({
+          pageNum: current,
+          rows: 5
+      })
       .then(res => {
-      //   setCount(res.data.total);
-        setTableData(res.data);
-        console.log(res.data);
+        setCount(res.data.total);
+        setTableData(res.data.rows);
       });
     }
-    function callback(key) {
-        console.log(key);
-    }
-    // const { previewVisible, previewImage, fileList } = this.state;
-    const uploadButton = (
-        <div>
-            <Icon type="plus" />
-            <div className="ant-upload-text">Upload</div>
-        </div>
-    );
     return (
         <div id="order">
             <UserTable
                 className="orderTable"
                 dataSource={TableData}
                 columns={columns}
+                pageSize={5}
                 total={count}
                 onChange={pageChange}
-            //  onChange={(page)=>{console.log(page)}}
             />
           
         </div>

@@ -27,14 +27,14 @@ function User() {
   const [chgvisible, setChgVisible] = useState(false);
   const [chgPassword, setchgPassword] = useState("");
   const [chgName,setchgName]=useState('');
+  const [fresh,setFresh]=useState(true);
 
   useEffect(() => {
     api.getAllEmployee().then(res => {
-      //   setCount(res.data.count);
+        setCount(res.data.count);
       setTableData(res.data);
-      console.log(res.data);
     });
-  }, []);
+  }, [fresh]);
 
   const columns = [
     {
@@ -54,9 +54,9 @@ function User() {
     },
     {
       title: "角色",
-      dataIndex: "admin",
-      key: "admin",
-      render: (text, record) => <span>{text ? "管理员" : "摄影师"}</span>
+      dataIndex: "role",
+      key: "role",
+      render: (text, record) => <span>{text.rname}</span>
     },
     {
       title: "操作",
@@ -97,6 +97,7 @@ function User() {
         api.deleteEmployee(id).then(res => {
           setChgVisible(false);
           message.error('已删除')
+          setFresh(!fresh)
         });
       }
     });
@@ -113,9 +114,10 @@ function User() {
         "role.rid": addRole
       })
       .then(res => {
-        setAddVisible(false);
         message.info('叮~添加成功')
+        setFresh(!fresh)
       });
+      setAddVisible(false);
   }
 
   function chgSubmit(text) {
@@ -127,6 +129,7 @@ function User() {
       .then(res => {
         message.warning("修改完成");
         setChgVisible(false);
+        setFresh(!fresh)
       });
   }
   return (

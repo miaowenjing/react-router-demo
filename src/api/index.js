@@ -13,8 +13,9 @@ export default {
   addEmployee: (param = {}) => get(`/addEmployee`, param),
 
   getAllCombo: (param = {}) => get("/getAllCombo", param),
-  getAllRentClothes: (param = {}) => get("/getAllClothes", param),
-  addRentClothes: params => upload(`/addRentClothes`,params),
+  getAllRentClothes: (param) => get("/getAllRentClothes", param),
+  // getAllRentClothes: (param) => get("/getAllClothes", param),
+  addRentClothes: params => post(`/addRentClothes?`+params),
   getCombosWithAid: url => get(`/getCombosWithAid/${url}`),
   getAllComboOrders: (param = {}) => get(`/getAllComboOrders`, param),
  
@@ -22,7 +23,7 @@ export default {
   deleteRentClothesWithId: url => del(`/deleteRentClothesWithId/${url}`),
   editOrderStateWithId: url => get(`/editOrderStateWithId/${url}`),
   employeeIndex: url => get(`/employeeIndex`),
-  getAllClothesOrders: url => get(`/getAllClothesOrders`),
+  getAllClothesOrders: (params={}) => get(`/getAllClothesOrdersWithPage`,params),
 editClothesOrder: url => get(`/editClothesOrder?`,url),
   getPermissionsByEid: url => get(`/getPermissionsByEid/${url}`)
 };

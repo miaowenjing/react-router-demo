@@ -24,7 +24,7 @@ function ProDetail(props) {
     api.getCombosWithAid(id).then(res => {
       // setCount(res.data.total);
       setTableData(res.data);
-      console.log(tableData);
+      // console.log(tableData);
     });
   }, []);
   const columns = [
@@ -78,9 +78,6 @@ function ProDetail(props) {
             >
               <Skeleton avatar title={false} loading={item.loading} active>
                 <List.Item.Meta
-                  // avatar={
-                  //   <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                  // }
                   title={<span>{item.lname}</span>}
                 />
                 <p>{`￥${item.comboLocation.comboPrice}`}</p>
@@ -117,7 +114,7 @@ function ProDetail(props) {
               setvisible(true);
             }}
           >
-            修改
+            新增拍摄地点
           </a>
           <Divider type="vertical" />
           <a
@@ -126,7 +123,7 @@ function ProDetail(props) {
               message.error("删除成功");
             }}
           >
-            删除
+            删除该套餐
           </a>
         </span>
       )
@@ -147,13 +144,13 @@ function ProDetail(props) {
           setvisible(false);
         }}
       >
-        <span>套餐名称：</span>
+        <span>地点</span>
         <Input placeholder="" style={{ margin: "20px 0" }} />
-        <span>套餐描述：</span>
+        {/* <span>套餐描述：</span>
 
-        <Input placeholder="" style={{ margin: "20px 0" }} />
+        <Input placeholder="" style={{ margin: "20px 0" }} />*/}
         <span>套餐价格：</span>
-        <Input placeholder="" style={{ margin: "20px 0" }} />
+        <Input placeholder="" style={{ margin: "20px 0" }} /> 
       </Modal>
     </div>
   );

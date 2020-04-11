@@ -22,8 +22,8 @@ function order() {
   const [uploadVisible, setuploadVisible] = useState(false);
   const [previewVisible, setpreviewVisible] = useState(false);
   const [previewImage, setpreviewImage] = useState("");
-  const [fileList, setfileList] = useState([
-  ]);
+  const [fileList, setfileList] = useState('');
+  const [fresh,setFresh] = useState(true);
   useEffect(() => {
     api
       .getAllComboOrders({
@@ -35,7 +35,11 @@ function order() {
         setTableData(res.data.rows);
         console.log(res.data.rows);
       });
-  }, [current]);
+  }, [current,fresh]);
+  const props = {
+   
+  };
+
   const columns = [
     {
       title: "订单编号",
@@ -80,7 +84,6 @@ function order() {
       dataIndex: "comboOrderState",
       key: "comboOrderState",
       render: text => <span>{text ? text.osState : "无状态"}</span>
-      // console.log(text.osState)
     },
     {
       title: "拍摄状态",
@@ -88,22 +91,12 @@ function order() {
       key: "action",
       render: (text, { comOrderId, comboOrderState }) => (
         <span>
-          {/* <Button
-            style={{ margin: "0 15px" }}
-            onClick={() => {
-              console.log(comboOrderState.osId);
-              chgState(comOrderId, 2);
-            }}
-            disabled={comboOrderState.osId == 1 ? false : true}
-          >
-            付款
-          </Button> */}
           <Button
             style={{ margin: "0 15px" }}
             onClick={() => {
               chgState(comOrderId, 3);
             }}
-            // disabled={comboOrderState.osId == 2 ? false : true}
+          disabled={comboOrderState.osId !== 2}
           >
             拍摄完成
           </Button>
@@ -112,7 +105,7 @@ function order() {
             onClick={() => {
               chgState(comOrderId, 4);
             }}
-            // disabled={comboOrderState.osId !== 3 ? false : true}
+          disabled={comboOrderState.osId==3||comboOrderState.osId==4}
           >
             取消订单
           </Button>
@@ -121,97 +114,73 @@ function order() {
     },
     {
       title: "上传拍摄图片",
-      dataIndex: "upload",
-      key: "upload",
+      dataIndex: "comboOrderProducts",
+      key: "comboOrderProducts",
       render: (text, { comOrderId, comboOrderState }) => (
+        <>
+        <Upload 
+         name='file'
+         action={`${config.baseUrl}/uploadComboOrderPicture?comOrderId=${comOrderId}`}
+         // fileList:fileList,
+         // showUploadList:false,
+         onChange={(info)=>{
+           if (info.file.status === 'done') {
+            //  setfileList(info.file.response) 
+            setFresh(!fresh)
+           }
+         }}>
+          <Button
+            style={{ margin: "0 15px" }}
+          
+          disabled={comboOrderState.osId == 3 ? false : true}
+          // onClick={() => {
+          // setuploadVisible(true);
+          // }}
+          >
+            上传图片
+          </Button>
+        </Upload>
         <Button
-          style={{ margin: "0 15px" }}
-          // disabled={comboOrderState.osId == 3 ? false : true}
+            style={{ margin: "0 15px" }}
+          disabled={comboOrderState.osId !== 3||!text }
           onClick={() => {
-            setuploadVisible(true);
+            window.open(`${config.baseUrl}/fileDownload/{fileName}?fileName=${text}`)
           }}
-        >
-          上传图片
-        </Button>
+          >
+            下载图片
+          </Button>
+        </>
+
       )
     }
   ];
-  function handleCancel() {
-   setpreviewVisible(false)
-  }
+
   async function handlePreview(file) {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-      setpreviewImage(file.url || file.preview);
-      setpreviewVisible(true)
-    
-  }
-
-  function handleChange({ fileList }) {
-    console.log(fileList)
-    setfileList(fileList)
-  }
-
-  function handleUpload() {
-    setuploadVisible(true);
-
-
+    setpreviewImage(file.url || file.preview);
+    setpreviewVisible(true)
 
   }
-
   function chgState(orderId, osId) {
-    console.log(orderId, osId);
     api.editOrderStateWithId(`${orderId}/${osId}`).then(res => {
-      console.log(res);
+      setFresh(!fresh)
     });
   }
   function pageChange(page) {
     setCurrent(page);
   }
-  function callback(key) {
-    console.log(key);
-  }
-  // const { previewVisible, previewImage, fileList } = this.state;
-  const uploadButton = (
-    <div>
-      <Icon type="plus" />
-      <div className="ant-upload-text">Upload</div>
-    </div>
-  );
   return (
     <div id="order">
       <UserTable
         className="orderTable"
         dataSource={TableData}
         columns={columns}
+        pageSize={10}
         total={count}
         onChange={pageChange}
-        //  onChange={(page)=>{console.log(page)}}
       />
-      <Modal
-        title="Basic Modal"
-        visible={uploadVisible}
-        onOk={handleUpload}
-        onCancel={() => {
-          setuploadVisible(false);
-        }}
-      >
-        <div className="clearfix">
-          <Upload
-            action={config.baseUrl+'/uploadPicture'}
-            listType="picture-card"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
-          >
-            {uploadButton}
-          </Upload>
-          <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
-            <img alt="example" style={{ width: "100%" }} src={previewImage} />
-          </Modal>
-        </div>
-      </Modal>
     </div>
   );
 }

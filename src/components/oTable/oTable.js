@@ -1,6 +1,7 @@
 import React  from 'react';
 import { Table ,Pagination } from 'antd';
-function oTable ({className,dataSource,  columns, total,onChange,children,...res},){
+import './oTable.scss'
+function oTable ({className,dataSource,  columns,pageSize, total,onChange,children,...res},){
 
     return (
         <div className={className}>
@@ -11,7 +12,8 @@ function oTable ({className,dataSource,  columns, total,onChange,children,...res
       {...res}/>
       
     <Pagination 
-      showQuickJumper 
+      // showQuickJumper 
+      pageSize={pageSize}
       total={total}  
       onChange={onChange}
       />

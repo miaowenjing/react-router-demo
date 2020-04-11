@@ -64,7 +64,6 @@ function Product() {
           bordered={false}
           cover={<img alt="example" src={number.imgSrc} />}
           actions={[
-            // <Icon type="edit" />,
             <Link to={`/logined/produce/${number.key}`}>
               <p type="ellipsis" className="toDetail">
                 查看此类型所有套餐
@@ -93,24 +92,6 @@ function Product() {
           <Icon type="bars" className="icon" />
           <span>商品列表</span>
         </span>
-        <Button
-          type="primary"
-          onClick={() => {
-            setAddVisible(true);
-          }}
-        >
-          添加
-        </Button>
-        <OMobal
-          visible={Addvisible}
-          title="新增"
-          onOk={addSubmit}
-          onCancel={() => {
-            setAddVisible(false);
-          }}
-          okText="添加"
-          cancelText="取消"
-        />
       </div>
       <div style={{ background: "rgb(240, 242, 245)", padding: "10px 30px" }}>
         <NumberList numbers={numbers} />

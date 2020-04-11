@@ -37,17 +37,5 @@ export default [
         pid:6
       }]
     },
-    {
-      mainTitle: '数据分析',
-      children: [{
-        title: '用户分析',
-        url: '/logined/echart/a',
-        pid:1,
-      },
-      {
-        title: '订单分析',
-        url: '/logined/echart/b',
-        pid:1,
-      }]
-    }
+   
   ]

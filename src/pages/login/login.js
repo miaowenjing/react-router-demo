@@ -19,11 +19,11 @@ class Login extends Component {
       .employeeLogin(`${this.state.custPhone}/${this.state.password}`)
       .then(res => {
         if (res.success) {
-          localStorage.setItem("eid",  res.employee.rid);
-          localStorage.setItem("username", res.employee.rname);
-          localStorage.setItem('role',JSON.stringify(res.employee.role.permissions))
+          localStorage.setItem("eid", res.employee.eid);
+          localStorage.setItem("username", res.employee.username);
+          localStorage.setItem('role', JSON.stringify(res.employee.role.permissions))
           this.props.history.push("/logined");
-        }else{
+        } else {
           message.error("登录失败")
         }
 
