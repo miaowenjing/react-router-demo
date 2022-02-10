@@ -8,7 +8,7 @@
     "qs": "^6.6.0",
     "history": "^4.9.0",
     "mockjs": "^1.0.1-beta3",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-router": "^5.0.0",
